@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
 public class DatabaseConnection {
 
     public static Connection getConnection() throws SQLException {
