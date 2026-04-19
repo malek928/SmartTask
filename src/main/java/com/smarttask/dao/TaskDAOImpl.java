@@ -1,5 +1,6 @@
 package com.smarttask.dao;
 
+import com.smarttask.utils.DatabaseConnection; // ← ajoutez cette ligne
 import com.smarttask.model.Task;
 import com.smarttask.model.Priority;
 import com.smarttask.model.TaskStatus;
