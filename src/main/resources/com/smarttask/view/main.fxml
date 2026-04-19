@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.smarttask.controller.TaskController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- HAUT : titre et boutons -->
+    <top>
+        <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: #2c3e50;">
+            <Label text="SmartTask — Mes Tâches" styleClass="label-title"
+                   style="-fx-text-fill: white;"/>
+            <HBox spacing="10">
+                <Button text="➕ Ajouter" onAction="#ouvrirFormulaireAjout" styleClass="button-success"/>
+                <Button text="✏️ Modifier" onAction="#ouvrirFormulaireModifier" styleClass="button"/>
+                <Button text="🗑️ Supprimer" onAction="#supprimerTache" styleClass="button-danger"/>
+                <Button text="✅ Marquer Terminée" onAction="#marquerTerminee" styleClass="button"/>
+                <Button text="📦 Archiver" onAction="#archiverTache" styleClass="button"/>
+                <Button text="📄 Exporter CSV" onAction="#exporterCSV" styleClass="button"/>
+                <Button text="📊 Statistiques" onAction="#afficherStats" styleClass="button"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CENTRE : tableau des tâches -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <TableView fx:id="tableTaches" prefHeight="450">
+                <columns>
+                    <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+                    <TableColumn fx:id="colDescription" text="Description" prefWidth="250"/>
+                    <TableColumn fx:id="colPriorite" text="Priorité" prefWidth="100"/>
+                    <TableColumn fx:id="colStatut" text="Statut" prefWidth="120"/>
+                    <TableColumn fx:id="colDeadline" text="Deadline" prefWidth="110"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- BAS : message de statut -->
+    <bottom>
+        <HBox style="-fx-padding: 10; -fx-background-color: #ecf0f1;">
+            <Label fx:id="labelStatut" text="Prêt"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

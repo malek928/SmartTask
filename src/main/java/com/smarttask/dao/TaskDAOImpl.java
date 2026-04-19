@@ -1,9 +1,10 @@
 package com.smarttask.dao;
 
-import com.smarttask.utils.DatabaseConnection; // ← ajoutez cette ligne
 import com.smarttask.model.Task;
 import com.smarttask.model.Priority;
 import com.smarttask.model.TaskStatus;
+import com.smarttask.utils.DatabaseConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class TaskDAOImpl implements ITaskDAO {
 
     @Override
     public void insererTask(Task task) {
-        String sql = "INSERT INTO tasks (user_id, titre, description, priorite, statut, deadline) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tasks (user_id, title, description, priority, status, due_date) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, task.getUserId());
@@ -41,7 +42,7 @@ public class TaskDAOImpl implements ITaskDAO {
 
     @Override
     public void modifierTask(Task task) {
-        String sql = "UPDATE tasks SET titre=?, description=?, priorite=?, deadline=? WHERE id=?";
+        String sql = "UPDATE tasks SET title=?, description=?, priority=?, due_date=? WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, task.getTitre());
@@ -69,7 +70,7 @@ public class TaskDAOImpl implements ITaskDAO {
 
     @Override
     public void changerStatut(int id, String statut) {
-        String sql = "UPDATE tasks SET statut = ? WHERE id = ?";
+        String sql = "UPDATE tasks SET status = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, statut);
@@ -92,12 +93,13 @@ public class TaskDAOImpl implements ITaskDAO {
                 Task t = new Task(
                         rs.getInt("id"),
                         rs.getInt("user_id"),
-                        rs.getString("titre"),
+                        rs.getString("title"),
                         rs.getString("description"),
-                        Priority.valueOf(rs.getString("priorite")),
-                        TaskStatus.valueOf(rs.getString("statut")),
-                        rs.getString("deadline")
+                        Priority.valueOf(rs.getString("priority")),
+                        TaskStatus.valueOf(rs.getString("status")),
+                        rs.getString("due_date")
                 );
+                t.setArchive(rs.getBoolean("archive"));
                 liste.add(t);
             }
         } catch (SQLException e) {
@@ -118,12 +120,13 @@ public class TaskDAOImpl implements ITaskDAO {
                 Task t = new Task(
                         rs.getInt("id"),
                         rs.getInt("user_id"),
-                        rs.getString("titre"),
+                        rs.getString("title"),
                         rs.getString("description"),
-                        Priority.valueOf(rs.getString("priorite")),
-                        TaskStatus.valueOf(rs.getString("statut")),
-                        rs.getString("deadline")
+                        Priority.valueOf(rs.getString("priority")),
+                        TaskStatus.valueOf(rs.getString("status")),
+                        rs.getString("due_date")
                 );
+                t.setArchive(true);
                 liste.add(t);
             }
         } catch (SQLException e) {

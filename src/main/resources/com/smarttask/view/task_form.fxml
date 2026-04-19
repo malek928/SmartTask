@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.smarttask.controller.TaskFormController"
+      spacing="15" style="-fx-padding: 25; -fx-background-color: #f5f6fa;"
+      prefWidth="450">
+
+    <Label text="📝 Détails de la tâche" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <!-- Titre -->
+    <VBox spacing="5">
+        <Label text="Titre *"/>
+        <TextField fx:id="champTitre" promptText="Ex: Finir le rapport..."/>
+    </VBox>
+
+    <!-- Description -->
+    <VBox spacing="5">
+        <Label text="Description"/>
+        <TextArea fx:id="champDescription" promptText="Détails de la tâche..."
+                  prefRowCount="3" wrapText="true"/>
+    </VBox>
+
+    <!-- Priorité -->
+    <VBox spacing="5">
+        <Label text="Priorité *"/>
+        <ComboBox fx:id="comboPriorite" prefWidth="200"/>
+    </VBox>
+
+    <!-- Statut -->
+    <VBox spacing="5">
+        <Label text="Statut *"/>
+        <ComboBox fx:id="comboStatut" prefWidth="200"/>
+    </VBox>
+
+    <!-- Deadline -->
+    <VBox spacing="5">
+        <Label text="Deadline (date limite)"/>
+        <DatePicker fx:id="dateDeadline" promptText="Choisir une date"/>
+    </VBox>
+
+    <!-- Boutons -->
+    <HBox spacing="10" style="-fx-padding: 10 0 0 0;">
+        <Button text="💾 Sauvegarder" onAction="#sauvegarder" styleClass="button-success"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6;"/>
+        <Button text="❌ Annuler" onAction="#annuler"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 6;"/>
+    </HBox>
+
+</VBox>
