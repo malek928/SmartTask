@@ -6,6 +6,7 @@ import com.smarttask.model.TaskStatus;
 import com.smarttask.utils.DatabaseConnection;
 
 import java.sql.*;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,12 @@ public class TaskDAOImpl implements ITaskDAO {
             ps.setString(3, task.getDescription());
             ps.setString(4, task.getPriorite().name());
             ps.setString(5, task.getStatut().name());
-            ps.setString(6, task.getDeadline());
+            String deadline = task.getDeadline();
+            if (deadline == null || deadline.isEmpty()) {
+                ps.setNull(6, Types.DATE);
+            } else {
+                ps.setString(6, deadline);
+            }
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +54,12 @@ public class TaskDAOImpl implements ITaskDAO {
             ps.setString(1, task.getTitre());
             ps.setString(2, task.getDescription());
             ps.setString(3, task.getPriorite().name());
-            ps.setString(4, task.getDeadline());
+            String deadlineMod = task.getDeadline();
+            if (deadlineMod == null || deadlineMod.isEmpty()) {
+                ps.setNull(4, Types.DATE);
+            } else {
+                ps.setString(4, deadlineMod);
+            }
             ps.setInt(5, task.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
