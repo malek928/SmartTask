@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.smarttask.controller.DashboardController"
+      spacing="15"
+      style="-fx-padding: 20; -fx-background-color: #f5f6fa;"
+      prefWidth="900" prefHeight="600">
+
+    <Label text="📊 Tableau de bord"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <!-- Statistiques rapides -->
+    <HBox spacing="20">
+        <VBox style="-fx-background-color: #3498db; -fx-padding: 20; -fx-background-radius: 8;" prefWidth="200">
+            <Label text="Total Tâches" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="labelTotal" text="0" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+        </VBox>
+        <VBox style="-fx-background-color: #2ecc71; -fx-padding: 20; -fx-background-radius: 8;" prefWidth="200">
+            <Label text="Terminées" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="labelTerminees" text="0" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+        </VBox>
+        <VBox style="-fx-background-color: #e74c3c; -fx-padding: 20; -fx-background-radius: 8;" prefWidth="200">
+            <Label text="En Retard" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="labelEnRetard" text="0" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+        </VBox>
+        <VBox style="-fx-background-color: #f39c12; -fx-padding: 20; -fx-background-radius: 8;" prefWidth="200">
+            <Label text="En Cours" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="labelEnCours" text="0" style="-fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Graphiques -->
+    <HBox spacing="20">
+        <PieChart fx:id="pieStatuts" title="Répartition par Statut" prefWidth="400" prefHeight="300"/>
+        <BarChart fx:id="barPriorites" title="Tâches par Priorité" prefWidth="400" prefHeight="300">
+            <xAxis><CategoryAxis label="Priorité"/></xAxis>
+            <yAxis><NumberAxis label="Nombre"/></yAxis>
+        </BarChart>
+    </HBox>
+
+</VBox>

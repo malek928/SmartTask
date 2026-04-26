@@ -4,58 +4,91 @@ import com.smarttask.dao.UserDAOImpl;
 import com.smarttask.model.User;
 import com.smarttask.utils.PasswordUtils;
 import com.smarttask.utils.SessionManager;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class LoginController {
 
-    // We bring in the DAO so the Controller can talk to the database
+    @FXML private TextField champUsername;
+    @FXML private PasswordField champPassword;
+    @FXML private Label labelErreur;
+
     private UserDAOImpl userDAO = new UserDAOImpl();
 
-    // ROLE 1: Handle User Registration
-    public boolean register(String username, String password) {
+    @FXML
+    public void seConnecter() {
+        String username = champUsername.getText().trim();
+        String password = champPassword.getText().trim();
 
-        // 1. Check if the username is already taken
-        if (userDAO.getUserByUsername(username) != null) {
-            System.out.println("Registration failed: Username already exists!");
-            return false;
+        if (username.isEmpty() || password.isEmpty()) {
+            labelErreur.setText("⚠️ Remplissez tous les champs !");
+            return;
         }
 
-        // 2. Scramble (hash) the password using our utility
-        String hashedPassword = PasswordUtils.hashPassword(password);
-
-        // 3. Create a new User object with the hashed password
-        User newUser = new User(username, hashedPassword);
-
-        // 4. Tell the DAO to save the user to the database
-        boolean isRegistered = userDAO.registerUser(newUser);
-        if (isRegistered) {
-            System.out.println("Registration successful for user: " + username);
-        }
-        return isRegistered;
-    }
-
-    // ROLE 2: Handle User Login
-    public boolean login(String username, String password) {
-
-        // 1. Ask DAO to find the user in the database
         User user = userDAO.getUserByUsername(username);
 
-        // 2. If the user doesn't exist at all
         if (user == null) {
-            System.out.println("Login failed: User not found!");
-            return false;
+            labelErreur.setText("❌ Utilisateur introuvable !");
+            return;
         }
 
-        // 3. Check if the typed password matches the hashed password in the DB
         if (PasswordUtils.checkPassword(password, user.getPassword())) {
-
-            // 4. Success! Save them in the SessionManager so the app remembers them
             SessionManager.setCurrentUser(user);
-            System.out.println("Login successful! Welcome, " + username);
-            return true;
-
+            ouvrirFenetrePrincipale();
         } else {
-            System.out.println("Login failed: Incorrect password!");
-            return false;
+            labelErreur.setText("❌ Mot de passe incorrect !");
+        }
+    }
+
+    @FXML
+    public void sInscrire() {
+        String username = champUsername.getText().trim();
+        String password = champPassword.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            labelErreur.setText("⚠️ Remplissez tous les champs !");
+            return;
+        }
+
+        if (userDAO.getUserByUsername(username) != null) {
+            labelErreur.setText("❌ Nom d'utilisateur déjà pris !");
+            return;
+        }
+
+        String hashedPassword = PasswordUtils.hashPassword(password);
+        User newUser = new User(username, hashedPassword);
+        boolean succes = userDAO.registerUser(newUser);
+
+        if (succes) {
+            labelErreur.setStyle("-fx-text-fill: #2ecc71;");
+            labelErreur.setText("✅ Inscription réussie ! Connectez-vous.");
+        } else {
+            labelErreur.setText("❌ Erreur lors de l'inscription !");
+        }
+    }
+
+    private void ouvrirFenetrePrincipale() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/smarttask/view/main.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("SmartTask — Mes Tâches");
+            Scene scene = new Scene(loader.load(), 900, 600);
+            scene.getStylesheets().add(
+                    getClass().getResource("/com/smarttask/view/styles.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+            // Fermer la fenêtre de login
+            Stage loginStage = (Stage) champUsername.getScene().getWindow();
+            loginStage.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            labelErreur.setText("❌ Erreur ouverture application !");
         }
     }
 }

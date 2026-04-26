@@ -9,10 +9,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/smarttask/view/main.fxml"));
-        Scene scene = new Scene(loader.load(), 900, 600);
-        scene.getStylesheets().add(getClass().getResource("/com/smarttask/view/styles.css").toExternalForm());
-        stage.setTitle("SmartTask — Gestion de tâches");
+        // Ouvre login.fxml en premier
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/smarttask/view/login.fxml"));
+        Scene scene = new Scene(loader.load(), 400, 500);
+        stage.setTitle("SmartTask — Connexion");
         stage.setScene(scene);
         stage.show();
     }
